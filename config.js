@@ -80,7 +80,7 @@ window.siteConfig = {
   about: {
     headline: 'Freshly Homemade. Every Single Day.',
     body:     'Briez Kitchen was born from a simple belief — that the best Nigerian food is made the way your mother made it. Every pot is cooked fresh to order. No shortcuts. No reheating. Just real Igbo flavours made with pride and delivered straight to your door on Lagos Island.',
-    image:    'https://images.pexels.com/photos/6963371/pexels-photo-6963371.jpeg?auto=compress&cs=tinysrgb&w=800&q=80'
+    image:    'https://images.pexels.com/photos/37278546/pexels-photo-37278546.jpeg?auto=compress&cs=tinysrgb&w=800&q=80'
   },
 
   testimonials: [
