@@ -15,8 +15,10 @@
     return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
   }
   var WA_GENERAL = waLink('Hi Briez Kitchen! I would like to place an order');
-  function waItemLink(name) {
-    return waLink('Hi Briez Kitchen! I\'d like to order: ' + name);
+  function waItemLink(name, price) {
+    var msg = 'Hi Briez Kitchen! I\'d like to order: ' + name;
+    if (price) msg += ' (' + price + ')';
+    return waLink(msg);
   }
 
   /* ── SVG Icons ─────────────────────────────────────── */
@@ -96,7 +98,7 @@
     return [
       '<nav class="nav" id="nav">',
       '  <div class="nav__inner container">',
-      '    <a href="#hero" class="nav__logo">Briez <span>Kitchen</span></a>',
+      '    <a href="#hero" class="nav__logo"><img src="assets/images/briez.png" alt="Briez Kitchen logo" class="nav__logo-img">Briez <span>Kitchen</span></a>',
       '    <ul class="nav__links" role="list">',
       '      <li><a href="#menu">Menu</a></li>',
       '      <li><a href="#about">About</a></li>',
@@ -126,11 +128,12 @@
   /* ── Hero ─────────────────────────────────────────── */
   function renderHero() {
     var h = cfg.hero;
+    var bgEl = h.bgImage
+      ? '<img src="' + h.bgImage + '" alt="" class="hero__bg-img" aria-hidden="true" loading="eager">'
+      : '<div class="hero__bg-ph" aria-hidden="true"><span class="hero__bg-ph-label">Hero background · food photography placeholder</span></div>';
     return [
       '<section class="hero" id="hero">',
-      '  <div class="hero__bg-ph" aria-hidden="true">',
-      '    <span class="hero__bg-ph-label">Hero background · food photography placeholder</span>',
-      '  </div>',
+      '  ' + bgEl,
       '  <div class="hero__content">',
       '    <span class="hero__badge">🍲 ' + cfg.business.category + ' · ' + cfg.business.location + '</span>',
       '    <h1>' + h.headline + '</h1>',
@@ -154,9 +157,12 @@
   /* ── Signature Dishes ──────────────────────────────── */
   function renderSignatureDishes() {
     var cards = cfg.signatureDishes.map(function (d, i) {
+      var imgEl = d.image
+        ? '<img src="' + d.image + '" alt="' + d.name + '" loading="lazy">'
+        : d.name + '<br>photo placeholder';
       return [
         '<div class="sig-card reveal reveal-delay-' + (i + 1) + '">',
-        '  <div class="sig-card__img">' + d.name + '<br>photo placeholder</div>',
+        '  <div class="sig-card__img">' + imgEl + '</div>',
         '  <div class="sig-card__body">',
         '    <h3 class="sig-card__name">' + d.name + '</h3>',
         '    <p class="sig-card__desc">' + d.description + '</p>',
@@ -192,15 +198,18 @@
     var panesHtml = m.categories.map(function (cat, i) {
       var items = m.items.filter(function (item) { return item.category === cat; });
       var cardsHtml = items.map(function (item) {
+        var imgEl = item.image
+          ? '<img src="' + item.image + '" alt="' + item.name + '" loading="lazy">'
+          : item.name + ' photo';
         return [
           '<div class="menu-card">',
-          '  <div class="menu-card__img">' + item.name + ' photo</div>',
+          '  <div class="menu-card__img">' + imgEl + '</div>',
           '  <div class="menu-card__body">',
           '    <h3 class="menu-card__name">' + item.name + '</h3>',
           '    <p class="menu-card__desc">' + item.description + '</p>',
           '    <div class="menu-card__footer">',
           '      <span class="menu-card__price">' + item.price + '</span>',
-          '      <a href="' + waItemLink(item.name) + '" class="menu-card__order" target="_blank" rel="noopener">Order</a>',
+          '      <a href="' + waItemLink(item.name, item.price) + '" class="menu-card__order" target="_blank" rel="noopener">Order</a>',
           '    </div>',
           '  </div>',
           '</div>'
@@ -238,7 +247,6 @@
       '  <div class="container">',
       '    <div class="about__inner reveal">',
       '      <div class="about__text">',
-      '        <div class="about__gold-bar" aria-hidden="true"></div>',
       '        <span class="section-label">Our Story</span>',
       '        <h2 class="section-title">' + a.headline + '</h2>',
       '        <p class="about__story">' + a.body + '</p>',
@@ -246,7 +254,7 @@
       '          ' + SVG_WA_SM + ' Order Now on WhatsApp',
       '        </a>',
       '      </div>',
-      '      <div class="about__img-wrap" aria-hidden="true">About \/ story image placeholder<\/div>',
+      '      <div class="about__img-wrap">' + (a.image ? '<img src="' + a.image + '" alt="Our kitchen story" loading="lazy">' : 'About / story image placeholder') + '</div>',
       '    </div>',
       '  </div>',
       '</section>'
